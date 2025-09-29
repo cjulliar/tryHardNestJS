@@ -1,18 +1,20 @@
 "use client";
 
 import React from "react";
-import Button from "@/src/components/Button";
+import Button from "@/components/Button";
 
 type JokeResponse = {
   value: string;
 };
 
 export default function JokeCard() {
+  // État local pour gérer la blague, le chargement et les erreurs
   const [joke, setJoke] = React.useState<string>("");
   const [loading, setLoading] = React.useState<boolean>(false);
   const [error, setError] = React.useState<string | null>(null);
 
   async function fetchJoke() {
+    // Appel à l’API publique Chuck Norris (client-side fetch)
     try {
       setLoading(true);
       setError(null);
@@ -32,6 +34,7 @@ export default function JokeCard() {
   }
 
   React.useEffect(() => {
+    // Récupère une première blague au montage du composant
     fetchJoke();
   }, []);
 

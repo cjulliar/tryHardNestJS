@@ -1,3 +1,5 @@
+// about/page.tsx — Route "/about"
+// - Montre une seconde page pour illustrer le routing par fichiers
 export default function AboutPage() {
   return (
     <main className="min-h-screen p-8 sm:p-20">

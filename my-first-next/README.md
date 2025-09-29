@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Projet [Next.js](https://nextjs.org) initialisé avec [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app) (App Router, TypeScript, Tailwind v4).
 
-## Getting Started
+## Démarrage en local
 
-First, run the development server:
+Dans le dossier `my-first-next` :
 
 ```bash
+npm install
 npm run dev
-# or
+# ou
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Ouvre `http://localhost:3000` dans le navigateur.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- La page d’accueil est dans `src/app/page.tsx`.
+- La mise en page racine est dans `src/app/layout.tsx`.
+- Les styles globaux (avec Tailwind) sont dans `src/app/globals.css`.
+- Les composants réutilisables sont dans `src/components/`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Structure et concepts
 
-## Learn More
+- App Router : chaque dossier dans `src/app` devient une route. Un fichier `page.tsx` rend la page, `layout.tsx` définit le layout parent.
+- Composants React : UI réutilisable (`src/components/Button.tsx`, `src/components/JokeCard.tsx`).
+- Tailwind v4 : classes utilitaires, configuration minimale via `@tailwindcss/postcss` (voir `postcss.config.mjs`).
+- Typage : projet en TypeScript pour une meilleure DX.
 
-To learn more about Next.js, take a look at the following resources:
+## Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `npm run dev` : lance le serveur de dev Next.js (Turbopack).
+- `npm run build` : build de production.
+- `npm start` : démarre le serveur en production après build.
+- `npm run lint` : exécute ESLint.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Déploiement (Vercel)
 
-## Deploy on Vercel
+1. Versionne le projet sur GitHub (le dossier racine de l’app est `my-first-next`).
+2. Sur Vercel : New Project → Import depuis GitHub.
+3. Assure-toi que le “Project Root” pointe vers `my-first-next` (pas la racine du repo si différente).
+4. Build Command : `next build` (valeur par défaut OK). Output : `.next`.
+5. Déploie. L’URL de preview est fournie automatiquement.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Docs utiles :
+- [Doc Next.js](https://nextjs.org/docs)
+- [Tutoriel Learn Next.js](https://nextjs.org/learn)
+- [Déploiement Next.js](https://nextjs.org/docs/app/building-your-application/deploying)

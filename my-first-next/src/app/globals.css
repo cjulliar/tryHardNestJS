@@ -1,10 +1,24 @@
+/*
+  globals.css — styles globaux + intégration Tailwind v4
+  - @import "tailwindcss" injecte les styles utilitaires (reset + preflight + utilities)
+  - Nous définissons un petit thème CSS via des variables (couleurs + fontes)
+  - Le body applique ces variables pour le fond, la couleur de texte, et une police de secours
+*/
 @import "tailwindcss";
 
+/*
+  Variables de thème (mode clair par défaut)
+*/
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
 
+/*
+  Déclaration d’un thème inline Tailwind v4
+  - Mappe nos variables CSS vers des tokens Tailwind utilisables via classes
+  - ex: bg-background / text-foreground / font-sans / font-mono
+*/
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -12,6 +26,9 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/*
+  Mode sombre via media query système
+*/
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -19,6 +36,10 @@
   }
 }
 
+/*
+  Styles de base du body
+  - Utilise nos variables pour assurer la cohérence des couleurs
+*/
 body {
   background: var(--background);
   color: var(--foreground);

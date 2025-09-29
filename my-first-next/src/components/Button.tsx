@@ -1,5 +1,9 @@
 "use client";
 
+// Button — composant réutilisable stylé avec Tailwind
+// - Props pour variant (primary/secondary/ghost) et size (sm/md/lg)
+// - Sert à garder une cohérence visuelle et une API simple pour les boutons
+
 import React from "react";
 
 type ButtonVariant = "primary" | "secondary" | "ghost";
@@ -38,6 +42,7 @@ export function Button({
   variant = "primary",
   size = "md",
 }: ButtonProps) {
+  // Classes de base + mapping par variant et taille
   const baseClasses = "inline-flex items-center justify-center rounded-full font-medium transition-colors";
   const variantClasses = VARIANT_TO_CLASSES[variant];
   const sizeClasses = SIZE_TO_CLASSES[size];
