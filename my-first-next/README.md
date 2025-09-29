@@ -44,3 +44,48 @@ Docs utiles :
 - [Doc Next.js](https://nextjs.org/docs)
 - [Tutoriel Learn Next.js](https://nextjs.org/learn)
 - [Déploiement Next.js](https://nextjs.org/docs/app/building-your-application/deploying)
+
+### Récap Vercel (GitHub → Vercel)
+
+1) Préparer le repo GitHub
+- Assure-toi que l’app est dans un dossier dédié (ici `my-first-next`) avec un `package.json` à sa racine.
+- Push sur GitHub.
+
+2) Importer sur Vercel
+- Vercel → New Project → Import depuis GitHub → choisis le repo.
+- Important : “Root Directory” = `my-first-next` (pas la racine du repo si l’app est dans un sous-dossier).
+- Framework : Next.js (auto-détecté).
+- Install Command : `npm install`.
+- Build Command : `next build`.
+- Output Directory : `.next`.
+
+3) Déployer et vérifier
+- Lancer le déploiement.
+- Ouvrir les “Build Logs” : vérifier que les chemins pointent bien vers `my-first-next`.
+- Une fois “Ready”, tester l’URL de Preview.
+
+4) Résolution des erreurs fréquentes
+- 404 `not_found` : le plus souvent, mauvais “Root Directory”. Reconfigurer le projet ou réimporter en sélectionnant `my-first-next`.
+- Build échoue : vérifier versions Node (>= 18), commande de build, dépendances.
+
+---
+
+## Fichiers importants — résumé
+
+- `src/app/layout.tsx` : layout racine (polices via `next/font`, langue, metadata par défaut, import de `globals.css`).
+- `src/app/page.tsx` : page d’accueil (routing par fichier, boutons, section blague).
+- `src/app/about/page.tsx` : seconde page pour illustrer le routing (`/about`).
+- `src/app/globals.css` : Tailwind v4 via `@import "tailwindcss";`, variables CSS pour thème clair/sombre, mapping `@theme`.
+- `src/components/Button.tsx` : composant bouton réutilisable (variants : primary/secondary/ghost ; tailles : sm/md/lg).
+- `src/components/JokeCard.tsx` : composant client qui `fetch` une blague (API publique) + gestion du chargement et des erreurs.
+- `postcss.config.mjs` : active `@tailwindcss/postcss` (config minimale Tailwind v4).
+- `tsconfig.json` : chemins d’alias `@/* → ./src/*`, options TypeScript.
+- `next.config.ts` : configuration Next (laissée par défaut).
+
+### Flux de données (exemple API blague)
+- Côté client (`JokeCard`) : `fetch("https://api.chucknorris.io/jokes/random")` → met à jour l’état `joke`, `loading`, `error`.
+- Alternative (recommandée en prod) : créer un route handler `/api/joke` côté Next pour proxy (cache, erreurs, rate limit), puis `fetch('/api/joke')` côté client.
+
+### Tailwind v4 en bref
+- Plus de `tailwind.config.js` obligatoire : config minimale via PostCSS plugin.
+- Les tokens définis dans `@theme` (couleurs, fontes) se consomment en classes utilitaires (`bg-background`, `text-foreground`, `font-sans`, etc.).
