@@ -4,24 +4,13 @@
 import Link from "next/link";
 import Button from "@/components/Button";
 import JokeCard from "@/components/JokeCard";
+import Header from "@/components/Header";
 
 export default function Home() {
   return (
     <div className="min-h-screen p-8 sm:p-20">
-      {/* Header simple avec navigation vers / et /about */}
-      <header className="max-w-5xl mx-auto flex items-center justify-between">
-        <Link href="/" className="text-base font-semibold tracking-tight">
-          MyFirstNext
-        </Link>
-        <nav className="flex items-center gap-3">
-          <Link href="/about" className="text-sm hover:underline">
-            À propos
-          </Link>
-          <a href="#joke" className="text-sm hover:underline">
-            Blague
-          </a>
-        </nav>
-      </header>
+      {/* Header réutilisable */}
+      <Header />
 
       {/* Contenu principal : titre, texte d’intro et boutons d’action */}
       <main className="max-w-5xl mx-auto mt-16 flex flex-col gap-10">

@@ -89,3 +89,6 @@ Docs utiles :
 ### Tailwind v4 en bref
 - Plus de `tailwind.config.js` obligatoire : config minimale via PostCSS plugin.
 - Les tokens définis dans `@theme` (couleurs, fontes) se consomment en classes utilitaires (`bg-background`, `text-foreground`, `font-sans`, etc.).
+
+## Statut du déploiement
+- Ce projet est actuellement déployé via Vercel : https://try-hard-nest-js.vercel.app

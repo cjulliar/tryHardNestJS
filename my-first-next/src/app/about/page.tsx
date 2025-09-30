@@ -1,8 +1,10 @@
 // about/page.tsx — Route "/about"
 // - Montre une seconde page pour illustrer le routing par fichiers
+import Header from "@/components/Header";
 export default function AboutPage() {
   return (
     <main className="min-h-screen p-8 sm:p-20">
+      <Header />
       <div className="max-w-3xl mx-auto">
         <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-4">À propos</h1>
         <p className="text-base leading-relaxed opacity-90">
