@@ -35,6 +35,15 @@ export async function POST(req: Request): Promise<Response> {
     const lastUserMessage =
       messages.filter((m: ChatMessage) => m.role === "user").pop()?.content || body?.prompt || "Hello";
 
+    // Lire préférences tools (cookies) pour impacter le prompt
+    const cookie = req.headers.get("cookie") || "";
+    const translateLang = (/translateLang=([^;]+)/.exec(cookie)?.[1] || "").trim();
+    const injectNote = (/injectNote=([^;]+)/.exec(cookie)?.[1] || "").trim();
+    const systemParts: string[] = [];
+    if (translateLang) systemParts.push(`Tu dois répondre en ${decodeURIComponent(translateLang)}.`);
+    if (injectNote) systemParts.push(decodeURIComponent(injectNote));
+    const systemPrefix = systemParts.length > 0 ? systemParts.join(" ") : "Tu es un assistant utile et concis.";
+
     // Appel HTTP côté serveur vers OpenAI. On utilise fetch natif de l'Edge/Node.
     const upstream = await fetch(apiUrl, {
       method: "POST",
@@ -45,11 +54,12 @@ export async function POST(req: Request): Promise<Response> {
       body: JSON.stringify({
         model: "gpt-4o-mini",
         messages: [
-          { role: "system", content: "Tu es un assistant utile et concis." },
+          { role: "system", content: systemPrefix },
           { role: "user", content: lastUserMessage },
         ],
         temperature: 0.7,
         max_tokens: 300,
+        stream: true,
       }),
     });
 
@@ -62,21 +72,22 @@ export async function POST(req: Request): Promise<Response> {
       );
     }
 
-    // Réponse OpenAI: { choices: [ { message: { content: "..." } } ] }
-    const data = await upstream.json();
-    const content: string = data?.choices?.[0]?.message?.content || "";
-    if (!content) {
+    // OpenAI renvoie un stream SSE (Server-Sent Events) quand stream: true
+    // On proxy le flux tel quel vers le client
+    if (!upstream.body) {
       return new Response(
-        JSON.stringify({ error: "Unexpected response format", data }),
+        JSON.stringify({ error: "No response body" }),
         { status: 502, headers: { "content-type": "application/json" } }
       );
     }
 
-    // Pour une UX "streaming" (texte qui s'affiche progressivement), on créerait un ReadableStream
-    // et enverrait des chunks. CopilotKit facilite cela côté runtime Agent.
-    return new Response(JSON.stringify({ content }), {
+    return new Response(upstream.body, {
       status: 200,
-      headers: { "content-type": "application/json", "cache-control": "no-store" },
+      headers: {
+        "content-type": "text/event-stream",
+        "cache-control": "no-store",
+        "connection": "keep-alive",
+      },
     });
   } catch (err: unknown) {
     // Gestion d'erreur globale (ne jamais propager des stacks sensibles au client en prod)

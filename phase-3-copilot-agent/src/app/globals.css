@@ -1,8 +1,16 @@
 @import "tailwindcss";
 
+/* Thème foncé pour CopilotKit */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ck-bg: #111827;        /* fond */
+  --ck-fg: #e5e7eb;        /* texte */
+  --ck-bubble-user-bg: #1f2937;
+  --ck-bubble-user-fg: #ffffff;
+  --ck-bubble-assistant-bg: #374151;
+  --ck-bubble-assistant-fg: #ffffff;
+  --ck-input-bg: #111827;
+  --ck-input-fg: #e5e7eb;
+  --ck-divider: #374151;
 }
 
 @theme inline {
